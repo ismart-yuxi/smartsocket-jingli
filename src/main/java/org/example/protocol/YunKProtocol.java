@@ -3,6 +3,7 @@ package org.example.protocol;
 import org.smartboot.socket.Protocol;
 import org.smartboot.socket.transport.AioSession;
 import org.smartboot.socket.util.StringUtils;
+import org.tinylog.Logger;
 
 import java.nio.ByteBuffer;
 
@@ -24,41 +25,42 @@ public class YunKProtocol implements Protocol<XPacket> {
 
         XPacket xp = new XPacket();
         String startHex = StringUtils.toHex(readBuffer.get());
-        System.out.println("起始标识符代表一帧数据的开始，固定为 0x68  " + startHex);
+        Logger.info("起始标识符代表一帧数据的开始，固定为 0x68  " + startHex);
         xp.setStartHex(startHex);
 
         short dataLength = readBuffer.get();
-        System.out.println("数据长度 " + dataLength);
+        Logger.info("数据长度 " + dataLength);
         xp.setLength(dataLength);
 
 
         short serialDomain = readBuffer.getShort();
-        System.out.println("序列号域即为数据包的发送顺序号 " + serialDomain);
+        Logger.info("序列号域即为数据包的发送顺序号 " + serialDomain);
         xp.setSerialDomain(serialDomain);
 
 
         String secFlagHex = StringUtils.toHex(readBuffer.get());
-        System.out.println("加密标志只针对消息体（数据单元）。0x00:不加密，0x01:3DES " + secFlagHex);
+        Logger.info("加密标志只针对消息体（数据单元）。0x00:不加密，0x01:3DES " + secFlagHex);
         xp.setSecFlagHex(secFlagHex);
 
         String segmentTypeFlagHex = StringUtils.toHex(readBuffer.get());
-        System.out.println("帧类型标志定义了上下行数据帧 " + segmentTypeFlagHex);
+        Logger.info("帧类型标志定义了上下行数据帧 " + segmentTypeFlagHex);
         xp.setSegmentTypeFlagHex(segmentTypeFlagHex);
 
 
-        System.out.print("原始数据信息 ===> ");
+
         byte[] msg = new byte[dataLength - 4];
         readBuffer.get(msg);
+        StringBuilder msgStr = new StringBuilder();
         for (byte code : msg) {
-            System.out.printf("%02X", code & 0xFF);
+            msgStr.append(String.format("%02X", code & 0xFF));
         }
+        Logger.info("原始数据信息 ===> {}", msgStr);
         xp.setMsg(msg);
 
-        System.out.println();
         short segmentCheckDomain = readBuffer.getShort();
-        System.out.println("帧校验域 " + segmentCheckDomain);
+        Logger.info("帧校验域 " + segmentCheckDomain);
         xp.setSegmentCheckDomain(segmentCheckDomain);
-        System.out.println("====================================================================================");
+        Logger.info("====================================================================================");
 
         readBuffer.mark();
 
