@@ -13,15 +13,12 @@ public class YunKServer {
         AioQuickServer server = new AioQuickServer(9530, new YunKProtocol(), new ProcessStrategyProxy());
         server.start();
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    ProviderRegistry.getLoggingProvider().shutdown();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                ProviderRegistry.getLoggingProvider().shutdown();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-        });
+        }));
     }
 }
