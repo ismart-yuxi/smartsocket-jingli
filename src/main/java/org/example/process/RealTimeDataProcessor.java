@@ -61,5 +61,8 @@ public class RealTimeDataProcessor implements MessageProcessor<XPacket> {
         byte[] electricity = Arrays.copyOfRange(msg, 16 + 7 + 1 + 1 + 1 + 1 + 2, 16 + 7 + 1 + 1 + 1 + 1 + 2 + 2); // 2位
         Logger.info("输出电流 ===> {}", NumberUtil.mul(Util.bytesToShortLittleEndian(electricity), 0.1));
 
+
+        Logger.info("=====================================实时数据处理完成===============================================");
+
     }
 }

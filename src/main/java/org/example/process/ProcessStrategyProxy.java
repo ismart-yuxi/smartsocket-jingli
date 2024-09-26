@@ -9,7 +9,7 @@ import java.util.Map;
 public class ProcessStrategyProxy implements MessageProcessor<XPacket> {
 
     private static final Map<String, MessageProcessor<XPacket>> PROCESS_STRATEGY = Map.of(
-            "1", new LoginMessageProcessor(),
+            "01", new LoginMessageProcessor(),
             "13", new RealTimeDataProcessor()
     );
 

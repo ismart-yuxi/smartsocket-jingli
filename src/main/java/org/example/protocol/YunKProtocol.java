@@ -25,25 +25,25 @@ public class YunKProtocol implements Protocol<XPacket> {
 
         XPacket xp = new XPacket();
         String startHex = StringUtils.toHex(readBuffer.get());
-        Logger.info("起始标识符代表一帧数据的开始，固定为 0x68  " + startHex);
+        Logger.debug("起始标识符代表一帧数据的开始，固定为 0x68  " + startHex);
         xp.setStartHex(startHex);
 
         short dataLength = readBuffer.get();
-        Logger.info("数据长度 " + dataLength);
+        Logger.debug("数据长度 " + dataLength);
         xp.setLength(dataLength);
 
 
         short serialDomain = readBuffer.getShort();
-        Logger.info("序列号域即为数据包的发送顺序号 " + serialDomain);
+        Logger.debug("序列号域即为数据包的发送顺序号 " + serialDomain);
         xp.setSerialDomain(serialDomain);
 
 
         String secFlagHex = StringUtils.toHex(readBuffer.get());
-        Logger.info("加密标志只针对消息体（数据单元）。0x00:不加密，0x01:3DES " + secFlagHex);
+        Logger.debug("加密标志只针对消息体（数据单元）。0x00:不加密，0x01:3DES " + secFlagHex);
         xp.setSecFlagHex(secFlagHex);
 
         String segmentTypeFlagHex = StringUtils.toHex(readBuffer.get());
-        Logger.info("帧类型标志定义了上下行数据帧 " + segmentTypeFlagHex);
+        Logger.debug("帧类型标志定义了上下行数据帧 " + segmentTypeFlagHex);
         xp.setSegmentTypeFlagHex(segmentTypeFlagHex);
 
 
@@ -54,13 +54,13 @@ public class YunKProtocol implements Protocol<XPacket> {
         for (byte code : msg) {
             msgStr.append(String.format("%02X", code & 0xFF));
         }
-        Logger.info("原始数据信息 ===> {}", msgStr);
+        Logger.debug("原始数据信息 ===> {}", msgStr);
         xp.setMsg(msg);
 
         short segmentCheckDomain = readBuffer.getShort();
-        Logger.info("帧校验域 " + segmentCheckDomain);
+        Logger.debug("帧校验域 " + segmentCheckDomain);
         xp.setSegmentCheckDomain(segmentCheckDomain);
-        Logger.info("====================================================================================");
+        Logger.debug("====================================================================================");
 
         readBuffer.mark();
 
