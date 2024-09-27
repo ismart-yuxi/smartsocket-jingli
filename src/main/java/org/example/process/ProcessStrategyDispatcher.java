@@ -14,6 +14,7 @@ public class ProcessStrategyDispatcher extends AbstractMessageProcessor<XPacket>
 
     private static final Map<String, MessageProcessor<XPacket>> PROCESS_STRATEGY = Map.of(
             "01", new LoginMessageProcessor(),
+            "03", new HeartbeatFeelingProcessor(),
             "13", new RealTimeDataProcessor()
     );
 

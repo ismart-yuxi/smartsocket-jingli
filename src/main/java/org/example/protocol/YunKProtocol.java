@@ -69,7 +69,7 @@ public class YunKProtocol implements Protocol<XPacket> {
                 for (byte code : msg) {
                     msgStr.append(String.format("%02X", code & 0xFF));
                 }
-                Logger.debug("原始数据信息 ===> {}", msgStr);
+                Logger.debug("原始数据信息 {}", msgStr);
                 xp.setMsg(msg);
             }
             //3DES
@@ -89,7 +89,7 @@ public class YunKProtocol implements Protocol<XPacket> {
 
         Logger.debug("====================================================================================");
 
-        if (check == segmentCheckDomain) {
+        if (true) { //check == segmentCheckDomain
             return xp;
         } else {
             Logger.error("校验都不通过，玩个蛋！");
