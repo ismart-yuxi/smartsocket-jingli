@@ -7,7 +7,7 @@ import org.smartboot.socket.extension.processor.AbstractMessageProcessor;
 import org.smartboot.socket.transport.AioSession;
 import org.tinylog.Logger;
 
-public class ProcessStrategyDispatcher extends AbstractMessageProcessor<XPacket> {
+public class ProcessStrategyDispatcherProcessor extends AbstractMessageProcessor<XPacket> {
 
 
     /**
