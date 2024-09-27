@@ -1,6 +1,6 @@
 package org.example.protocol;
 
-import org.example.Util;
+import org.example.util.Util;
 import org.smartboot.socket.Protocol;
 import org.smartboot.socket.transport.AioSession;
 import org.smartboot.socket.util.StringUtils;
@@ -39,7 +39,7 @@ public class YunKProtocol implements Protocol<XPacket> {
         xp.setSerialDomain(serialDomain);
 
 
-        String secFlagHex = StringUtils.toHex(readBuffer.get());
+        String secFlagHex = StringUtils.toHex(readBuffer.get()); //0x00:不加密   ，0x01:3DES
         Logger.debug("加密标志只针对消息体（数据单元）。0x00:不加密，0x01:3DES " + secFlagHex);
         xp.setSecFlagHex(secFlagHex);
 
@@ -48,18 +48,23 @@ public class YunKProtocol implements Protocol<XPacket> {
         xp.setSegmentTypeFlagHex(segmentTypeFlagHex);
 
 
+        switch (secFlagHex) {
+            //不加密的
+            case "00" -> {
+                byte[] msg = new byte[dataLength - 4]; //4 分别是 序列号域2  加密标志1  帧类型标志1 相加为4  总共长度 -4 刚好为消息体长度
+                readBuffer.get(msg);
+                StringBuilder msgStr = new StringBuilder();
+                for (byte code : msg) {
+                    msgStr.append(String.format("%02X", code & 0xFF));
+                }
+                Logger.debug("原始数据信息 ===> {}", msgStr);
+                xp.setMsg(msg);
+            }
+            //3DES
+            case "01" -> {
 
-        byte[] msg = new byte[dataLength - 4];
-        readBuffer.get(msg);
-        StringBuilder msgStr = new StringBuilder();
-        for (byte code : msg) {
-            msgStr.append(String.format("%02X", code & 0xFF));
+            }
         }
-        Logger.debug("原始数据信息 ===> {}", msgStr);
-        xp.setMsg(msg);
-
-//        short segmentCheckDomain = readBuffer.getShort();
-//        Logger.debug("帧校验域 " + segmentCheckDomain);
 
         byte[] segmentCheckDomainByte = new byte[2];
         readBuffer.get(segmentCheckDomainByte);

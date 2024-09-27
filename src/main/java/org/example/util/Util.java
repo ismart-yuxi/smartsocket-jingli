@@ -1,4 +1,4 @@
-package org.example;
+package org.example.util;
 
 public class Util {
     /**
@@ -10,7 +10,7 @@ public class Util {
      * 检查数组长度: 确保输入的字节数组至少有两个元素，以避免数组越界异常。
      *
      * @param bytes
-     * @return
+     * @return short
      */
     public static short bytesToShort(byte[] bytes) {
         if (bytes == null || bytes.length < 2) {
@@ -27,7 +27,7 @@ public class Util {
      * 这种方法适用于从小端序字节数组中读取16位整数的场景。
      *
      * @param bytes
-     * @return
+     * @return short
      */
     public static short bytesToShortLittleEndian(byte[] bytes) {
         if (bytes == null || bytes.length < 2) {

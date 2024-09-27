@@ -1,8 +1,8 @@
 package org.example.process;
 
 import cn.hutool.core.util.NumberUtil;
-import org.example.Util;
 import org.example.protocol.XPacket;
+import org.example.util.Util;
 import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.transport.AioSession;
 import org.tinylog.Logger;
@@ -27,7 +27,7 @@ public class RealTimeDataProcessor implements MessageProcessor<XPacket> {
         for (byte id : orderId) {
             orderIdStr.append(String.format("%02X", id & 0xFF));
         }
-        Logger.info("交易流水号 ===> {}", orderIdStr);
+        Logger.info("交易流水号 {}", orderIdStr);
 
 
         byte[] chargingId = Arrays.copyOfRange(msg, 16, 16 + 7); // 7位
@@ -35,11 +35,11 @@ public class RealTimeDataProcessor implements MessageProcessor<XPacket> {
         for (byte id : chargingId) {
             chargingIdStr.append(String.format("%02X", id & 0xFF));
         }
-        Logger.info("桩编号 ===> {}", chargingIdStr.toString());
+        Logger.info("桩编号 {}", chargingIdStr.toString());
 
 
         byte[] gunId = Arrays.copyOfRange(msg, 16 + 7, 16 + 7 + 1); // 1位
-        Logger.info("枪号%02X".formatted(gunId[0] & 0xFF));
+        Logger.info("枪号 %02X".formatted(gunId[0] & 0xFF));
 
 
         byte[] status = Arrays.copyOfRange(msg, 16 + 7 + 1, 16 + 7 + 1 + 1); // 1位
@@ -55,11 +55,11 @@ public class RealTimeDataProcessor implements MessageProcessor<XPacket> {
 
 
         byte[] voltage = Arrays.copyOfRange(msg, 16 + 7 + 1 + 1 + 1 + 1, 16 + 7 + 1 + 1 + 1 + 1 + 2); // 2位
-        Logger.info("输出电压 ===> {}", NumberUtil.mul(Util.bytesToShortLittleEndian(voltage), 0.1));
+        Logger.info("输出电压 {}", NumberUtil.mul(Util.bytesToShortLittleEndian(voltage), 0.1));
 
 
         byte[] electricity = Arrays.copyOfRange(msg, 16 + 7 + 1 + 1 + 1 + 1 + 2, 16 + 7 + 1 + 1 + 1 + 1 + 2 + 2); // 2位
-        Logger.info("输出电流 ===> {}", NumberUtil.mul(Util.bytesToShortLittleEndian(electricity), 0.1));
+        Logger.info("输出电流 {}", NumberUtil.mul(Util.bytesToShortLittleEndian(electricity), 0.1));
 
 
         Logger.info("=====================================实时数据处理完成===============================================");
