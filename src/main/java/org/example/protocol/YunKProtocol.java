@@ -1,12 +1,15 @@
 package org.example.protocol;
 
-import org.example.util.Util;
+import cn.hutool.core.util.HexUtil;
+import org.example.util.CRC16Modbus;
+import org.example.util.HexHandleUtil;
 import org.smartboot.socket.Protocol;
 import org.smartboot.socket.transport.AioSession;
 import org.smartboot.socket.util.StringUtils;
 import org.tinylog.Logger;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class YunKProtocol implements Protocol<XPacket> {
     /**
@@ -23,6 +26,15 @@ public class YunKProtocol implements Protocol<XPacket> {
             return null;
         }
         readBuffer.mark();
+
+        // 不改变 position 的情况下读取数据
+        ByteBuffer readOnlyBuffer = readBuffer.duplicate();
+        // 获取底层数组
+        byte[] dataArray = new byte[readOnlyBuffer.remaining()];
+        readOnlyBuffer.get(dataArray);
+        // CRC校验的数据
+        String allData = HexUtil.encodeHexStr(dataArray);
+
 
         XPacket xp = new XPacket();
         String startHex = StringUtils.toHex(readBuffer.get());
@@ -66,16 +78,22 @@ public class YunKProtocol implements Protocol<XPacket> {
             }
         }
 
-        byte[] segmentCheckDomainByte = new byte[2];
-        readBuffer.get(segmentCheckDomainByte);
-        short segmentCheckDomain = Util.bytesToShortLittleEndian(segmentCheckDomainByte);
+        short segmentCheckDomain = readBuffer.order(ByteOrder.LITTLE_ENDIAN).getShort();
         Logger.debug("帧校验域 " + segmentCheckDomain);
         xp.setSegmentCheckDomain(segmentCheckDomain);
 
+        byte[] checkData = HexHandleUtil.subBytes(allData.getBytes(), 2, dataLength);
+        // CRC校验的结果
+        short check = CRC16Modbus.get(checkData);
+
+
         Logger.debug("====================================================================================");
 
-        readBuffer.mark();
-
-        return xp;
+        if (check == segmentCheckDomain) {
+            return xp;
+        } else {
+            Logger.error("校验都不通过，玩个蛋！");
+            return null;
+        }
     }
 }

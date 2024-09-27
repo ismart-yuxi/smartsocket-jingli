@@ -53,8 +53,8 @@ public class LoginMessageProcessor implements MessageProcessor<XPacket> {
         }
         Logger.info("Sim卡 => {}", simCardNumStr); //
 
-        byte[] carrieroperator = Arrays.copyOfRange(msg, 29, 30); // 1位
-        Logger.info("运营商%02X".formatted(carrieroperator[0] & 0xFF));
+        byte[] carrierOperator = Arrays.copyOfRange(msg, 29, 30); // 1位
+        Logger.info("运营商%02X".formatted(carrierOperator[0] & 0xFF));
 
         Logger.info("=====================================登录解析完成===============================================");
     }
