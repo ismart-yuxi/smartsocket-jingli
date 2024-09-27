@@ -1,5 +1,6 @@
 package org.github.socket.protocol.ykq.server.process;
 
+import cn.hutool.core.util.HexUtil;
 import org.github.socket.protocol.ykq.server.protocol.XPacket;
 import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.transport.AioSession;
@@ -19,20 +20,19 @@ public class HeartbeatFeelingProcessor implements MessageProcessor<XPacket> {
      */
     @Override
     public void process(AioSession session, XPacket packet) {
-        byte[] pkg = packet.getMsg();
+        byte[] msg = packet.getMsg();
 
-        byte[] chargingId = Arrays.copyOfRange(pkg, 0, 7); //7位
-        StringBuilder chargingIdStr = new StringBuilder();
-        for (byte id : chargingId) {
-            chargingIdStr.append(String.format("%02X", id & 0xFF));
-        }
+        Logger.info("=====================================心跳包协议开始===============================================");
+        byte[] chargingId = Arrays.copyOfRange(msg, 0, 7); //7位
+        String chargingIdStr = HexUtil.encodeHexStr(chargingId);
         Logger.info("桩编码 {}", chargingIdStr);
 
-        byte[] chargingNumber = Arrays.copyOfRange(pkg, 7, 8); // 1位
+        byte[] chargingNumber = Arrays.copyOfRange(msg, 7, 8); // 1位
         Logger.info("枪号 %02X".formatted(chargingNumber[0] & 0xFF));
 
 
-        byte[] chargingStatus = Arrays.copyOfRange(pkg, 8, 9); // 1位
+        byte[] chargingStatus = Arrays.copyOfRange(msg, 8, 9); // 1位
         Logger.info("枪状态 %02X".formatted(chargingStatus[0] & 0xFF));
+        Logger.info("=====================================心跳包协议结束===============================================");
     }
 }

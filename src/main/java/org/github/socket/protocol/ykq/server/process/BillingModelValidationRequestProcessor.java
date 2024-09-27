@@ -1,5 +1,6 @@
 package org.github.socket.protocol.ykq.server.process;
 
+import cn.hutool.core.util.HexUtil;
 import org.github.socket.protocol.ykq.server.protocol.XPacket;
 import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.transport.AioSession;
@@ -22,18 +23,17 @@ public class BillingModelValidationRequestProcessor implements MessageProcessor<
      */
     @Override
     public void process(AioSession session, XPacket packet) {
-        byte[] pkg = packet.getMsg();
+        byte[] msg = packet.getMsg();
 
-        byte[] chargingId = Arrays.copyOfRange(pkg, 0, 7); //7位
-        StringBuilder chargingIdStr = new StringBuilder();
-        for (byte id : chargingId) {
-            chargingIdStr.append(String.format("%02X", id & 0xFF));
-        }
+        Logger.info("=====================================计费模型校验协议开始===============================================");
+        byte[] chargingId = Arrays.copyOfRange(msg, 0, 7); //7位
+        String chargingIdStr = HexUtil.encodeHexStr(chargingId);
         Logger.info("桩编码 {}", chargingIdStr);
 
 
-        byte[] billingModelNumber = Arrays.copyOfRange(pkg, 7, 9); // 2位
+        byte[] billingModelNumber = Arrays.copyOfRange(msg, 7, 9); // 2位
         Logger.info("计费模型编号 %02X".formatted(billingModelNumber[0] & 0xFF));
+        Logger.info("=====================================计费模型校验协议结束===============================================");
 
     }
 }

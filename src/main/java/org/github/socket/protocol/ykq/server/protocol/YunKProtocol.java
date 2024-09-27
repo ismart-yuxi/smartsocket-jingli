@@ -86,8 +86,7 @@ public class YunKProtocol implements Protocol<XPacket> {
         // CRC校验的结果
         short check = CRC16Modbus.get(checkData);
 
-
-        Logger.debug("====================================================================================");
+        Logger.debug("帧校验域 check-> {} , segmentCheckDomain -> {} ", check, segmentCheckDomain);
 
         if (true) { //check == segmentCheckDomain
             return xp;

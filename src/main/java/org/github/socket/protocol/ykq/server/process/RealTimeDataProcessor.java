@@ -1,5 +1,6 @@
 package org.github.socket.protocol.ykq.server.process;
 
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.NumberUtil;
 import org.github.socket.protocol.ykq.server.protocol.XPacket;
 import org.github.socket.protocol.ykq.util.Util;
@@ -21,21 +22,16 @@ public class RealTimeDataProcessor implements MessageProcessor<XPacket> {
 
         byte[] msg = packet.getMsg();
 
+        Logger.info("=====================================实时数据处理协议开始===============================================");
 
         byte[] orderId = Arrays.copyOfRange(msg, 0, 16); //16位
-        StringBuilder orderIdStr = new StringBuilder();
-        for (byte id : orderId) {
-            orderIdStr.append(String.format("%02X", id & 0xFF));
-        }
+        String orderIdStr = HexUtil.encodeHexStr(orderId);
         Logger.info("交易流水号 {}", orderIdStr);
 
 
         byte[] chargingId = Arrays.copyOfRange(msg, 16, 16 + 7); // 7位
-        StringBuilder chargingIdStr = new StringBuilder();
-        for (byte id : chargingId) {
-            chargingIdStr.append(String.format("%02X", id & 0xFF));
-        }
-        Logger.info("桩编号 {}", chargingIdStr.toString());
+        String chargingIdStr = HexUtil.encodeHexStr(chargingId);
+        Logger.info("桩编号 {}", chargingIdStr);
 
 
         byte[] gunId = Arrays.copyOfRange(msg, 16 + 7, 16 + 7 + 1); // 1位
@@ -62,7 +58,7 @@ public class RealTimeDataProcessor implements MessageProcessor<XPacket> {
         Logger.info("输出电流 {}", NumberUtil.mul(Util.bytesToShortLittleEndian(electricity), 0.1));
 
 
-        Logger.info("=====================================实时数据处理完成===============================================");
+        Logger.info("=====================================实时数据处理协议结束===============================================");
 
     }
 }
