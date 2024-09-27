@@ -16,6 +16,7 @@ public class ProcessStrategyDispatcher extends AbstractMessageProcessor<XPacket>
             "01", new LoginMessageProcessor(),
             "03", new HeartbeatFeelingProcessor(),
             "05", new BillingModelValidationRequestProcessor(),
+            "09", new BillingModelRequestProcessor(),
             "13", new RealTimeDataProcessor()
     );
 
