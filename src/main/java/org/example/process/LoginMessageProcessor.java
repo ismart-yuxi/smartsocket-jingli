@@ -35,25 +35,25 @@ public class LoginMessageProcessor implements MessageProcessor<XPacket> {
         byte[] protocolVersion = Arrays.copyOfRange(msg, 9, 10); // 1位
         Logger.info("通信协议版本%02X".formatted(protocolVersion[0] * 10)); //版本号乘以10
 
-        byte[] programmerVersion = Arrays.copyOfRange(msg, 10, 17); //7位
+        byte[] programmerVersion = Arrays.copyOfRange(msg, 10, 18); //8位
         StringBuilder programmerVersionStr = new StringBuilder();
         for (byte id : programmerVersion) {
             programmerVersionStr.append(String.format("%02X", id & 0xFF));
         }
         Logger.info("程序版本{}", programmerVersionStr); //版本号乘以10
 
-        byte[] networkLinkType = Arrays.copyOfRange(msg, 17, 18); // 1位
+        byte[] networkLinkType = Arrays.copyOfRange(msg, 18, 19); // 1位
         Logger.info("网络链接类型%02X".formatted(networkLinkType[0] & 0xFF)); //版本号乘以10
 
 
-        byte[] simCardNum = Arrays.copyOfRange(msg, 18, 28); //7位
+        byte[] simCardNum = Arrays.copyOfRange(msg, 19, 29); //7位
         StringBuilder simCardNumStr = new StringBuilder();
         for (byte it : simCardNum) {
             simCardNumStr.append(String.format("%02X", it & 0xFF));
         }
         Logger.info("Sim卡 => {}", simCardNumStr); //
 
-        byte[] carrieroperator = Arrays.copyOfRange(msg, 28, 29); // 1位
+        byte[] carrieroperator = Arrays.copyOfRange(msg, 29, 30); // 1位
         Logger.info("运营商%02X".formatted(carrieroperator[0] & 0xFF));
 
         Logger.info("=====================================登录解析完成===============================================");

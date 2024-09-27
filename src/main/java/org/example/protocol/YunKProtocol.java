@@ -1,5 +1,6 @@
 package org.example.protocol;
 
+import org.example.Util;
 import org.smartboot.socket.Protocol;
 import org.smartboot.socket.transport.AioSession;
 import org.smartboot.socket.util.StringUtils;
@@ -57,9 +58,15 @@ public class YunKProtocol implements Protocol<XPacket> {
         Logger.debug("原始数据信息 ===> {}", msgStr);
         xp.setMsg(msg);
 
-        short segmentCheckDomain = readBuffer.getShort();
+//        short segmentCheckDomain = readBuffer.getShort();
+//        Logger.debug("帧校验域 " + segmentCheckDomain);
+
+        byte[] segmentCheckDomainByte = new byte[2];
+        readBuffer.get(segmentCheckDomainByte);
+        short segmentCheckDomain = Util.bytesToShortLittleEndian(segmentCheckDomainByte);
         Logger.debug("帧校验域 " + segmentCheckDomain);
         xp.setSegmentCheckDomain(segmentCheckDomain);
+
         Logger.debug("====================================================================================");
 
         readBuffer.mark();

@@ -6,7 +6,7 @@ import org.smartboot.socket.transport.AioSession;
 
 import java.util.Map;
 
-public class ProcessStrategyProxy implements MessageProcessor<XPacket> {
+public class ProcessStrategyDispatcher implements MessageProcessor<XPacket> {
 
     private static final Map<String, MessageProcessor<XPacket>> PROCESS_STRATEGY = Map.of(
             "01", new LoginMessageProcessor(),
