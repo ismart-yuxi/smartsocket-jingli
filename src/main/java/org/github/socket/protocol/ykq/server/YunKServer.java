@@ -1,7 +1,7 @@
-package org.example;
+package org.github.socket.protocol.ykq.server;
 
-import org.example.process.ProcessStrategyDispatcher;
-import org.example.protocol.YunKProtocol;
+import org.github.socket.protocol.ykq.server.process.ProcessStrategyDispatcher;
+import org.github.socket.protocol.ykq.server.protocol.YunKProtocol;
 import org.smartboot.socket.extension.plugins.StreamMonitorPlugin;
 import org.smartboot.socket.transport.AioQuickServer;
 import org.tinylog.provider.ProviderRegistry;

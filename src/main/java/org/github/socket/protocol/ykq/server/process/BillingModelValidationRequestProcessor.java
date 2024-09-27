@@ -1,6 +1,6 @@
-package org.example.process;
+package org.github.socket.protocol.ykq.server.process;
 
-import org.example.protocol.XPacket;
+import org.github.socket.protocol.ykq.server.protocol.XPacket;
 import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.transport.AioSession;
 import org.tinylog.Logger;

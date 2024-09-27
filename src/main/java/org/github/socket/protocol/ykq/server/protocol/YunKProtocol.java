@@ -1,8 +1,8 @@
-package org.example.protocol;
+package org.github.socket.protocol.ykq.server.protocol;
 
 import cn.hutool.core.util.HexUtil;
-import org.example.util.CRC16Modbus;
-import org.example.util.HexHandleUtil;
+import org.github.socket.protocol.ykq.util.CRC16Modbus;
+import org.github.socket.protocol.ykq.util.HexHandleUtil;
 import org.smartboot.socket.Protocol;
 import org.smartboot.socket.transport.AioSession;
 import org.smartboot.socket.util.StringUtils;

@@ -1,4 +1,4 @@
-package org.example.util;
+package org.github.socket.protocol.ykq.util;
 
 public class Util {
     /**

@@ -1,7 +1,7 @@
-package org.example.process;
+package org.github.socket.protocol.ykq.server.process;
 
-import org.example.protocol.XPacket;
-import org.example.util.ChannelCacheManager;
+import org.github.socket.protocol.ykq.server.protocol.XPacket;
+import org.github.socket.protocol.ykq.util.ChannelCacheManager;
 import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.StateMachineEnum;
 import org.smartboot.socket.extension.processor.AbstractMessageProcessor;

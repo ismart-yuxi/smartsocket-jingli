@@ -1,8 +1,8 @@
-package org.example.process;
+package org.github.socket.protocol.ykq.server.process;
 
 import cn.hutool.core.util.NumberUtil;
-import org.example.protocol.XPacket;
-import org.example.util.Util;
+import org.github.socket.protocol.ykq.server.protocol.XPacket;
+import org.github.socket.protocol.ykq.util.Util;
 import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.transport.AioSession;
 import org.tinylog.Logger;

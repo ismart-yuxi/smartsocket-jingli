@@ -1,4 +1,4 @@
-package org.example.protocol;
+package org.github.socket.protocol.ykq.server.protocol;
 
 import java.io.Serializable;
 

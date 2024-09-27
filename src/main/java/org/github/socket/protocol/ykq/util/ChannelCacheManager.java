@@ -1,4 +1,4 @@
-package org.example.util;
+package org.github.socket.protocol.ykq.util;
 
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
